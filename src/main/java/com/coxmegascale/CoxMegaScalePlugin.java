@@ -39,8 +39,7 @@ import java.util.stream.Collectors;
 @PluginDescriptor(
         name = "Cox Mega Scale",
         description = "Enhances scouting with points tracking, drop chances, and supplies calculations.",
-        tags = {"cox", "scouting", "points", "drop", "supplies"},
-        enabledByDefault = false
+        tags = {"cox", "scouting", "points", "drop", "supplies"}
 )
 public class CoxMegaScalePlugin extends Plugin {
     @Inject
