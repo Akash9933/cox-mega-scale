@@ -70,40 +70,30 @@ public class CoxMegaScalePlugin extends Plugin {
     @Getter
     private Raid currentRaid;
 
-    @Getter
     private int scaledPartySize = 1; // Default value for virtual players (if needed)
 
     @Getter
     private int actualPartySize = 1; // Default value for total party size (real + virtual players)
 
-    @Getter
     private int totalPoints = 0;
 
-    @Getter
     private int lostPoints = 0;
 
     @Getter
     private int oldPoints = 0;
 
-    @Getter
     private int totalLostPoints = 0;
 
-    @Getter
     private float onePurp;
 
-    @Getter
     private float twoPurp;
 
-    @Getter
     private float threePurp;
 
-    @Getter
     private float fourPurp;
 
-    @Getter
     private float fivePurp;
 
-    @Getter
     private double noPurp;
 
     @Getter
@@ -115,7 +105,6 @@ public class CoxMegaScalePlugin extends Plugin {
     @Getter
     double failChance;
 
-    @Getter
     private int dropRoll = 1;
 
     private boolean inRaidChambers = false;
@@ -151,7 +140,7 @@ public class CoxMegaScalePlugin extends Plugin {
                     inRaidChambers = true;
                     isInRaid = true;
                     actualPartySize = calculateActualPartySize();
-                    totalPoints = client.getVar(TOTAL_POINTS_VARBIT_ID);
+                    totalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
                     log.info("Player is already in a raid. Total Points: {}", totalPoints);
                     eventBus.post(new PartySizeChanged(actualPartySize));
 
@@ -204,7 +193,7 @@ public class CoxMegaScalePlugin extends Plugin {
                 isInRaid = true;
                 inRaidChambers = true;
                 actualPartySize = calculateActualPartySize();
-                totalPoints = client.getVar(TOTAL_POINTS_VARBIT_ID);
+                totalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
                 log.info("Raid Entry Detected. Total Points: {}", totalPoints);
                 eventBus.post(new PartySizeChanged(actualPartySize));
 
@@ -249,7 +238,7 @@ public class CoxMegaScalePlugin extends Plugin {
         // Update totalPoints when TOTAL_POINTS_VARBIT_ID changes
         if (varbitId == TOTAL_POINTS_VARBIT_ID) {
             if (isInRaid) {
-                int newTotalPoints = client.getVar(TOTAL_POINTS_VARBIT_ID);
+                int newTotalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
                 if (newTotalPoints != totalPoints) {
                     totalPoints = newTotalPoints;
                     log.info("Total Raid Points updated to: {}", totalPoints);
@@ -279,7 +268,7 @@ public class CoxMegaScalePlugin extends Plugin {
      */
     private void updateTotalPoints() {
         try {
-            int newTotalPoints = client.getVar(TOTAL_POINTS_VARBIT_ID);
+            int newTotalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
             if (newTotalPoints != totalPoints) {
                 totalPoints = newTotalPoints;
                 log.info("Total Raid Points updated to: {}", totalPoints);
