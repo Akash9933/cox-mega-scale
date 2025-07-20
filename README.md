@@ -1,5 +1,5 @@
 # CoxMegaScale
-Cox Mega Scale plugin helps with running a mega scale by providing utility and information.
+Cox Mega Scale plugin helps with running a mega scale with friends by providing utility and information.
 
 Provides:
 
@@ -7,3 +7,6 @@ Provides:
 2. Points gained and lost.
 3. Drop chance with amount of rolls.
 4. How many overloads/golpar/fish needed.
+
+
+NOT INTENDED FOR BOOSTING IRONS.
