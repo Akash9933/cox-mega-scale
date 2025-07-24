@@ -127,7 +127,7 @@ public class CoxMegaScalePlugin extends Plugin {
 
     @Override
     protected void startUp() throws Exception {
-        log.info("Cox Mega Scale plugin started!");
+        log.debug("Cox Mega Scale plugin started!");
         // Do not register overlays here. They will be managed based on raid status.
 
         // Check if the player is already in a raid at startup
@@ -140,7 +140,7 @@ public class CoxMegaScalePlugin extends Plugin {
                     isInRaid = true;
                     actualPartySize = calculateActualPartySize();
                     totalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
-                    log.info("Player is already in a raid. Total Points: {}", totalPoints);
+                    log.debug("Player is already in a raid. Total Points: {}", totalPoints);
                     eventBus.post(new PartySizeChanged(actualPartySize));
 
                     // Add overlays if enabled in config
@@ -154,7 +154,7 @@ public class CoxMegaScalePlugin extends Plugin {
 
     @Override
     protected void shutDown() throws Exception {
-        log.info("Cox Mega Scale plugin stopped!");
+        log.debug("Cox Mega Scale plugin stopped!");
 
         // Remove Overlays
         removeOverlays();
@@ -193,7 +193,7 @@ public class CoxMegaScalePlugin extends Plugin {
                 inRaidChambers = true;
                 actualPartySize = calculateActualPartySize();
                 totalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
-                log.info("Raid Entry Detected. Total Points: {}", totalPoints);
+                log.debug("Raid Entry Detected. Total Points: {}", totalPoints);
                 eventBus.post(new PartySizeChanged(actualPartySize));
 
                 // Add overlays if enabled in config
@@ -214,7 +214,7 @@ public class CoxMegaScalePlugin extends Plugin {
                 noPurp = 0.0;
                 oldPoints = 0;
                 totalLostPoints = 0;
-                log.info("Raid Exit Detected. Total Points Reset.");
+                log.debug("Raid Exit Detected. Total Points Reset.");
                 eventBus.post(new PartySizeChanged(actualPartySize));
 
                 // Remove overlays
@@ -228,7 +228,7 @@ public class CoxMegaScalePlugin extends Plugin {
                 int newActualSize = calculateActualPartySize();
                 if (newActualSize != actualPartySize) {
                     actualPartySize = newActualSize;
-                    log.info("Actual Party Size Updated: {}", actualPartySize);
+                    log.debug("Actual Party Size Updated: {}", actualPartySize);
                     eventBus.post(new PartySizeChanged(actualPartySize));
                 }
             }
@@ -240,7 +240,7 @@ public class CoxMegaScalePlugin extends Plugin {
                 int newTotalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
                 if (newTotalPoints != totalPoints) {
                     totalPoints = newTotalPoints;
-                    log.info("Total Raid Points updated to: {}", totalPoints);
+                    log.debug("Total Raid Points updated to: {}", totalPoints);
                     updateLostPoints(totalPoints);
                     updateUniqueChance(totalPoints);
                 }
@@ -270,7 +270,7 @@ public class CoxMegaScalePlugin extends Plugin {
             int newTotalPoints = client.getVarbitValue(TOTAL_POINTS_VARBIT_ID);
             if (newTotalPoints != totalPoints) {
                 totalPoints = newTotalPoints;
-                log.info("Total Raid Points updated to: {}", totalPoints);
+                log.debug("Total Raid Points updated to: {}", totalPoints);
             }
         } catch (Exception e) {
             log.error("Error updating total raid points: ", e);
@@ -464,9 +464,9 @@ public class CoxMegaScalePlugin extends Plugin {
     public void updateLostPoints(int totalPoints) {
         if (oldPoints > totalPoints) {
             lostPoints = oldPoints - totalPoints;
-            log.info("Lost Points: {}", lostPoints);
+            log.debug("Lost Points: {}", lostPoints);
             totalLostPoints += lostPoints;
-            log.info("Total Lost Points: {}", totalLostPoints);
+            log.debug("Total Lost Points: {}", totalLostPoints);
         }
         oldPoints = totalPoints;
     }
@@ -657,13 +657,13 @@ public class CoxMegaScalePlugin extends Plugin {
         // Determine if the raid is desirable
         if (!selectedRooms.isEmpty() && roomsMatch && roomCountMatches && startOrderMatches) {
             desirableRaidFound = true;
-            log.info("Desirable raid found based on selected criteria.");
+            log.debug("Desirable raid found based on selected criteria.");
         } else if (!selectedRooms.isEmpty()) {
             desirableRaidFound = false;
-            log.info("Raid is not desirable based on selected criteria.");
+            log.debug("Raid is not desirable based on selected criteria.");
         } else {
             desirableRaidFound = false;
-            log.info("No selected rooms specified. Raid is not marked as desirable.");
+            log.debug("No selected rooms specified. Raid is not marked as desirable.");
         }
 
         // Update actual party size from Raid object if available
@@ -676,14 +676,14 @@ public class CoxMegaScalePlugin extends Plugin {
 
                 if (actualSize > 0 && actualSize != actualPartySize) {
                     actualPartySize = Math.max(actualSize, 1);
-                    log.info("Actual Party Size updated to: {}", actualPartySize);
+                    log.debug("Actual Party Size updated to: {}", actualPartySize);
                     eventBus.post(new PartySizeChanged(actualPartySize));
                 }
             } catch (NoSuchMethodError | UnsupportedOperationException e) {
                 // If the method does not exist, fallback to Varbit
                 log.warn("Actual party size methods not found in Raid object. Falling back to Varbit.");
                 actualPartySize = calculateActualPartySize();
-                log.info("Actual Party Size updated via Varbit: {}", actualPartySize);
+                log.debug("Actual Party Size updated via Varbit: {}", actualPartySize);
                 eventBus.post(new PartySizeChanged(actualPartySize));
             }
         }
@@ -838,6 +838,6 @@ public class CoxMegaScalePlugin extends Plugin {
         // Reset the current raid when the raid ends or the player leaves
         currentRaid = null;
         desirableRaidFound = false;
-        log.info("RaidReset event received. Resetting currentRaid and desirableRaidFound.");
+        log.debug("RaidReset event received. Resetting currentRaid and desirableRaidFound.");
     }
 }

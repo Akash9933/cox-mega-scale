@@ -9,7 +9,7 @@ public class Utils
 
     public static void log(String message)
     {
-        log.info("[Cox Mega Scale] " + message);
+        log.debug("[Cox Mega Scale] " + message);
     }
 
     // Add other utility methods as needed
