@@ -69,30 +69,40 @@ public class CoxMegaScalePlugin extends Plugin {
     @Getter
     private Raid currentRaid;
 
+    @Getter
     private int scaledPartySize = 1; // Default value for virtual players (if needed)
 
     @Getter
     private int actualPartySize = 1; // Default value for total party size (real + virtual players)
 
+    @Getter
     private int totalPoints = 0;
 
+    @Getter
     private int lostPoints = 0;
 
     @Getter
     private int oldPoints = 0;
 
+    @Getter
     private int totalLostPoints = 0;
 
+    @Getter
     private float onePurp;
 
+    @Getter
     private float twoPurp;
 
+    @Getter
     private float threePurp;
 
+    @Getter
     private float fourPurp;
 
+    @Getter
     private float fivePurp;
 
+    @Getter
     private double noPurp;
 
     @Getter
@@ -104,10 +114,13 @@ public class CoxMegaScalePlugin extends Plugin {
     @Getter
     double failChance;
 
+    @Getter
     private int dropRoll = 1;
 
+    @Getter
     private boolean inRaidChambers = false;
 
+    @Getter
     private boolean desirableRaidFound = false;
 
     @Getter
@@ -118,7 +131,7 @@ public class CoxMegaScalePlugin extends Plugin {
     private static final int RAID_PARTY_SIZE_VARBIT_ID = 9539; // Scaled party size varbit (if needed)
     private static final int ACTUAL_PARTY_SIZE_VARBIT_ID = 9540; // Actual party size varbit
     private static final int RAID_PARTY_SIZE_SCALING_VARBIT_ID = 9541; // Additional scaled party size varbit (if needed)
-    private static final int TOTAL_POINTS_VARBIT_ID = Varbits.TOTAL_POINTS; // Total raid points varbit
+    private static final int TOTAL_POINTS_VARBIT_ID = 5431; // Total raid points varbit
 
     @Provides
     CoxMegaScaleConfig provideConfig(ConfigManager configManager) {
@@ -132,7 +145,7 @@ public class CoxMegaScalePlugin extends Plugin {
 
         // Check if the player is already in a raid at startup
         clientThread.invokeLater(() -> {
-            try {
+
                 int inRaidValue = client.getVarbitValue(IN_RAID_VARBIT_ID);
                 log.debug("startUp - IN_RAID Varbit (ID {}): {}", IN_RAID_VARBIT_ID, inRaidValue);
                 if (inRaidValue == 1 && !inRaidChambers) {
@@ -146,9 +159,6 @@ public class CoxMegaScalePlugin extends Plugin {
                     // Add overlays if enabled in config
                     addOverlays();
                 }
-            } catch (Exception e) {
-                log.error("Error during startUp Varbit check: ", e);
-            }
         });
     }
 
@@ -334,111 +344,12 @@ public class CoxMegaScalePlugin extends Plugin {
     }
 
     /**
-     * Returns the current scaled party size.
-     *
-     * @return The scaled party size.
-     */
-    public int getScaledPartySize() {
-        return this.scaledPartySize;
-    }
-
-    /**
      * Returns the actual party size.
      *
      * @return The actual party size.
      */
     public int getActualPartySizeValue() {
         return this.actualPartySize;
-    }
-
-    /**
-     * Returns the total points.
-     *
-     * @return The total points.
-     */
-    public int getTotalPoints() {
-        return this.totalPoints;
-    }
-
-    /**
-     * Returns the total Lost points.
-     *
-     * @return The total Lost points.
-     */
-    public int getTotalLostPoints() {
-        return this.totalLostPoints;
-    }
-
-    /**
-     * Returns the lost points.
-     *
-     * @return The lost points.
-     */
-    public int getLostPoints() {
-        return this.lostPoints;
-    }
-
-    /**
-     * Returns the unique drop chance for one purple.
-     *
-     * @return The unique drop chance for one purple.
-     */
-    public double getOnePurp() {
-        return this.onePurp;
-    }
-
-    /**
-     * Returns the unique drop chance for two purples.
-     *
-     * @return The unique drop chance for two purples.
-     */
-    public double getTwoPurp() {
-        return this.twoPurp;
-    }
-
-    /**
-     * Returns the unique drop chance for three purples.
-     *
-     * @return The unique drop chance for three purples.
-     */
-    public double getThreePurp() {
-        return this.threePurp;
-    }
-
-    /**
-     * Returns the unique drop chance for four purples.
-     *
-     * @return The unique drop chance for four purples.
-     */
-    public double getFourPurp() {
-        return this.fourPurp;
-    }
-
-    /**
-     * Returns the unique drop chance for five purples.
-     *
-     * @return The unique drop chance for five purples.
-     */
-    public double getFivePurp() {
-        return this.fivePurp;
-    }
-
-    /**
-     * Returns the unique drop chance for no purples.
-     *
-     * @return The unique drop chance for no purples.
-     */
-    public double getNoPurp() {
-        return this.noPurp;
-    }
-
-    /**
-     * Returns the unique drop roll.
-     *
-     * @return The unique drop roll.
-     */
-    public int getDropRoll() {
-        return this.dropRoll;
     }
 
     /**
@@ -668,7 +579,6 @@ public class CoxMegaScalePlugin extends Plugin {
 
         // Update actual party size from Raid object if available
         if (currentRaid != null) {
-            try {
                 // Assuming Raid object has methods to get actual party size
                 // Replace these with actual methods if available
                 int actualSize = calculateActualPartySize();
@@ -679,13 +589,12 @@ public class CoxMegaScalePlugin extends Plugin {
                     log.debug("Actual Party Size updated to: {}", actualPartySize);
                     eventBus.post(new PartySizeChanged(actualPartySize));
                 }
-            } catch (NoSuchMethodError | UnsupportedOperationException e) {
                 // If the method does not exist, fallback to Varbit
                 log.warn("Actual party size methods not found in Raid object. Falling back to Varbit.");
                 actualPartySize = calculateActualPartySize();
                 log.debug("Actual Party Size updated via Varbit: {}", actualPartySize);
                 eventBus.post(new PartySizeChanged(actualPartySize));
-            }
+
         }
     }
 
@@ -791,7 +700,7 @@ public class CoxMegaScalePlugin extends Plugin {
             return;
         }
 
-        MenuEntry[] menuEntries = client.getMenuEntries();
+        MenuEntry[] menuEntries = client.getMenu().getMenuEntries();
         List<MenuEntry> entries = new ArrayList<>(Arrays.asList(menuEntries));
         MenuEntry reloadEntry = null;
         MenuEntry climbEntry = null;
@@ -830,7 +739,7 @@ public class CoxMegaScalePlugin extends Plugin {
         }
 
         // Update menu entries
-        client.setMenuEntries(entries.toArray(new MenuEntry[0]));
+        client.getMenu().setMenuEntries(entries.toArray(new MenuEntry[0]));
     }
 
     @Subscribe

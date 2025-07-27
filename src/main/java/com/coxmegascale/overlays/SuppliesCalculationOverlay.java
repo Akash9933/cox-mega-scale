@@ -30,7 +30,6 @@ public class SuppliesCalculationOverlay extends OverlayPanel {
 
         setPosition(OverlayPosition.BOTTOM_LEFT);
         setLayer(OverlayLayer.ABOVE_WIDGETS);
-        setPriority(OverlayPriority.LOW);
     }
 
     /**

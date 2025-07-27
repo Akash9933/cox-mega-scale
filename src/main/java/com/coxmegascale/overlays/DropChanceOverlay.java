@@ -28,7 +28,6 @@ public class DropChanceOverlay extends OverlayPanel
         this.plugin = plugin;
         setPosition(OverlayPosition.TOP_LEFT);
         setLayer(OverlayLayer.ABOVE_WIDGETS);
-        setPriority(OverlayPriority.LOW); // Optional: Set overlay priority if needed
     }
 
     @Override

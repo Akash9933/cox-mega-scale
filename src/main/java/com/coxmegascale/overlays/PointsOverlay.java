@@ -25,7 +25,6 @@ public class PointsOverlay extends OverlayPanel {
         this.plugin = plugin;
         setPosition(OverlayPosition.TOP_RIGHT);
         setLayer(OverlayLayer.ABOVE_WIDGETS);
-        setPriority(OverlayPriority.LOW); // Optional: Set overlay priority if needed
     }
 
     @Override
